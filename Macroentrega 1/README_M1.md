@@ -48,12 +48,12 @@ Para cada linha, existem 9 campos:
 * etw: tempo mais cedo possível para iniciar o serviço (janela de tempo);
 * ltw: última hora possível para iniciar o serviço (janela de tempo);
 * dur: a duração do serviço neste local;
-* p: o par de coleta se <id> for uma entrega; e 0 caso contrário;
-* d: o par de entrega se <id> for uma coleta; e 0 caso contrário
+* p: o par de coleta se id for uma entrega; e 0 caso contrário;
+* d: o par de entrega se id for uma coleta; e 0 caso contrário
 
 O 'p' e 'd' são apenas para fins de integridade. Em todas as instâncias:
-* Para um local de coleta 'id', sua entrega é dada por (<id>+((SIZE-1)/2)). 
-* Para um local de entrega 'id', sua coleta é dada por (<id>-((SIZE-1)/2)).
+* Para um local de coleta id, sua entrega é dada por (id+((SIZE-1)/2)). 
+* Para um local de entrega id, sua coleta é dada por (id-((SIZE-1)/2)).
 
 ###### Após todos os NODES
 
@@ -64,7 +64,17 @@ Open Source Routing Machine (OSRM).
 
 ## Funções para leitura dos dados
 
+Primeiramente, foi considerado que valores negativos nunca serão inseridos incorretamente, ou seja, os campos de SIZE, ROUTE-TIME, TIME-WINDOW, CAPACITY, id, etw e dur sempre serão considerados positivos; não foi criado regras de exceção ou detecção de erros para os mesmos.
 
+Regras de exceção e detecção de erros foram realizados para:
+* as janelas de tempo, sendo que ltw não pode ultrapassar o valor de ROUTE_TIME;
+* demanda do vertice, sendo que uma demanda não pode ultrapassar o valor de CAPACITY;
+* integridade com 'p' e 'd', definido pelas fórmulas já citadas.
+
+A estratégia empregada para a leitura dos dados se baseia em leitura de arquivos pela biblioteca fstream + programação orientada a objetos. No programa há 2 classes principais: lines e nodes. Por lines se faz a leitura das 10 primeiras linhas do arquivo e por nodes se faz a leitura de todos os vértices do grafo e as distâncias respectivas de cada vértice para todos, além disso a classe nodes herda os atributos de lines por ser amiga dela, garantindo a privacidade dos atributos do arquivo que não podem ser acessados **diretamente** pela função main.
+
+Os códigos foram disponibilizados nessa macroentrega, para maior detalhamento e entendimento, favor acessá-los.
 
 ## Proposição de um algoritmo
   
+PDF EM BREVE.
