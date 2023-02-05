@@ -191,9 +191,9 @@ void nodes::ler_nohs(ifstream& arquivo_instancia, lines *linhas){
 					arquivo_instancia >> dem[i];
 					if(dem[i] > linhas->CAPACITY){
 						
-						cout << "O vertice de id igual a " << id << " possui capacidade superior ao esperado!" << endl;
+						cout << "O vertice de id igual a " << id[i] << " possui capacidade superior ao esperado!" << endl;
 						cout << "Capacidade maxima esperada: " << linhas->CAPACITY << endl;
-						cout << "Capacidade do vertice encontrada: " << dem << endl;
+						cout << "Capacidade do vertice encontrada: " << dem[i] << endl;
 						throw runtime_error("ERRO CAPACIDADE - capacidade de demanda do vertice ultrapassada!");
 					}
 					break;
@@ -206,16 +206,16 @@ void nodes::ler_nohs(ifstream& arquivo_instancia, lines *linhas){
 					arquivo_instancia >> ltw[i];
 					if(ltw[i] > linhas->ROUTE_TIME){
 						
-						cout << "O vertice de id igual a " << id << " possui a janela de tempo superior ao esperado!" << endl;
+						cout << "O vertice de id igual a " << id[i] << " possui a janela de tempo superior ao esperado!" << endl;
 						cout << "Janela de tempo maxima esperada: " << linhas->ROUTE_TIME << endl;
-						cout << "Janela de tempo maxima do vertice encontrada: " << ltw << endl;
+						cout << "Janela de tempo maxima do vertice encontrada: " << ltw[i] << endl;
 						throw runtime_error("ERRO JANELA DE TEMPO - janela de tempo do vertice ultrapassada!");
 					}
 					/*if(id != 0 and ltw - etw > linhas->TIME_WINDOW){
 						
-						cout << "O vertice de id igual a " << id << " possui a largura da janela de tempo superior ao esperado!" << endl;
+						cout << "O vertice de id igual a " << id[i] << " possui a largura da janela de tempo superior ao esperado!" << endl;
 						cout << "Largura da janela de tempo esperada: " << linhas->TIME_WINDOW << endl;
-						cout << "Largura da janela de tempo do vertice encontrada: " << ltw - etw << endl;
+						cout << "Largura da janela de tempo do vertice encontrada: " << ltw[i] - etw[i] << endl;
 						throw runtime_error("ERRO LARGURA JANELA DE TEMPO - largura da janela de tempo do vertice ultrapassada!");
 					}*/
 					break;
@@ -333,10 +333,10 @@ class vehicles{
 	public:
 		vehicles(ifstream& arq_solucao);
 		~vehicles();
-		void leitura_rota(ifstream& arq_solucao, lines *linhas);
+		void leitura_rota(ifstream& arq_solucao);
 		void restricao_1(ifstream& arq_solucao, lines *linhas, nodes *nohs);
 		void restricao_2(ifstream& arq_solucao, lines *linhas, nodes *nohs);
-		void restricao_3(ifstream& arq_solucao, nodes *nohs);
+		void restricao_3(ifstream& arq_solucao, lines *linhas, nodes *nohs);
 		void restricao_4(ifstream& arq_solucao, lines *linhas, nodes *nohs);
 		void restricao_5(ifstream& arq_solucao, lines *linhas, nodes *nohs);
 		void restricao_6(ifstream& arq_solucao, lines *linhas, nodes *nohs);
@@ -367,14 +367,18 @@ vehicles::~vehicles(){
 }
 
 // Funcao para leitura da rota de um veiculo
-void vehicles::leitura_rota(ifstream& arq_solucao, lines *linhas){
+void vehicles::leitura_rota(ifstream& arq_solucao){
 	
 	int num_atual;
 	
 	// leitura da rota do veiculo atual
 	for(int i = 0; i < qtd_veiculos; i++){
 		
-		for(int j = 0; j < linhas->SIZE + 1; j++){
+		int tamanho_rota_atual;
+		
+		arq_solucao >> tamanho_rota_atual;
+		
+		for(int j = 0; j < tamanho_rota_atual; j++){
 			
 			arq_solucao >> num_atual;
 			rota[i].push_back(num_atual);
@@ -384,6 +388,8 @@ void vehicles::leitura_rota(ifstream& arq_solucao, lines *linhas){
 
 // RESTRICAO 1: em um pedido r = (i, j), j nao pode ser visitado antes de i
 void vehicles::restricao_1(ifstream& arq_solucao, lines *linhas, nodes *nohs){
+	
+	cout << "Restricao 1: " << endl << endl;
 	
 	int num_atual;
 	
@@ -425,10 +431,10 @@ void vehicles::restricao_1(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 	cout << endl;
 }
 
-/* RESTRICAO 2: Cada veículo deve partir e retornar ao ponto de origem {O}, seguindo o tempo [aO, bO] 
- * IMPORTANTE!!! NESSA RESTRICAO AINDA NAO FOI IMPLEMENTADO O TEMPO DE SERVICO
- */
+// RESTRICAO 2: Cada veículo deve partir e retornar ao ponto de origem {O}, seguindo o tempo [aO, bO]
 void vehicles::restricao_2(ifstream& arq_solucao, lines *linhas, nodes *nohs){
+	
+	cout << "Restricao 2: " << endl << endl;
 	
 	for(int i = 0; i < qtd_veiculos; i++){
 		
@@ -439,24 +445,26 @@ void vehicles::restricao_2(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 		
 		for(auto it = rota[i].begin(); it != rota[i].end(); it++){
 			
-			// tempo_total eh somado ate chegar ao segundo 0, ou seja, ate chegar ao deposito unico
+			// tempo_total eh somado ate chegar ao segundo 0 (deposito)
 			if(!segundo_zero){
 				
 				num_atual = *it;
 				num_prox = *(it + 1);
-				tempo_total += nohs->dist[num_atual][num_prox];
+				tempo_total += nohs->dist[num_atual][num_prox] + nohs->dur[num_prox];
 			}
+			
+			if(tempo_total < nohs->etw[num_prox])
+				tempo_total = nohs->etw[num_prox];
 			
 			if(num_prox == 0)
 				segundo_zero = true;
 		}
 		
-		cout << "O tempo gasto pelo veiculo " << i + 1 << " eh: " << tempo_total << endl;
-		if(tempo_total > linhas->ROUTE_TIME){
+		cout << "O tempo total gasto pelo veiculo " << i + 1 << " eh: " << tempo_total << "." << endl;
+		if(tempo_total > linhas->ROUTE_TIME)
+			cout << "Logo, ultrapassa o limite de: " << linhas->ROUTE_TIME << "!" << endl;
 			
-			cout << "Logo, ultrapassa o limite de: " << linhas->ROUTE_TIME << endl;
-			cout << endl;
-		}
+		cout << endl;
 	}
 	
 	cout << "##################################" << endl;
@@ -464,10 +472,11 @@ void vehicles::restricao_2(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 }
 
 /* RESTRICAO 3: O tempo de chegada de certo veículo ao ponto i ou j não pode exceder o ltw de tal ponto. 
- * Caso chegue antes de etw de i, o veículo deve esperar até o respectivo tempo para realizar a ação; 
- * IMPORTANTE!!! NESSA RESTRICAO AINDA NAO FOI IMPLEMENTADO O TEMPO DE SERVICO
+ * Caso chegue antes de etw de i ou j, o veículo deve esperar até o respectivo tempo para realizar a ação;
  */
-void vehicles::restricao_3(ifstream& arq_solucao, nodes *nohs){
+void vehicles::restricao_3(ifstream& arq_solucao, lines *linhas, nodes *nohs){
+	
+	cout << "Restricao 3: " << endl << endl;
 	
 	for(int i = 0; i < qtd_veiculos; i++){
 		
@@ -483,22 +492,43 @@ void vehicles::restricao_3(ifstream& arq_solucao, nodes *nohs){
 				
 				num_atual = *it;
 				num_prox = *(it + 1);
-				tempo_total += nohs->dist[num_atual][num_prox];
+				tempo_total += nohs->dist[num_atual][num_prox] + nohs->dur[num_prox];
 				
 				if(tempo_total < nohs->etw[num_prox]){
 					
-					cout << "O veiculo " << i + 1 << " chegou cedo demais no ponto " << num_prox << endl;
-					cout << "Janela de tempo inicial esperada: " << nohs->etw[num_prox] << endl;
-					cout << "Tempo de chegada: " << tempo_total << endl;
+					cout << "O veiculo " << i + 1 << " chegou cedo no ponto " << num_prox << "!" << endl;
+					cout << "Janela de tempo inicial esperada: " << nohs->etw[num_prox] << "." << endl;
+					cout << "Tempo de chegada: " << tempo_total << "." << endl;
 					cout << endl;
+					
+					tempo_total = nohs->etw[num_prox];
 				}
 				
 				if(tempo_total > nohs->ltw[num_prox]){
 					
-					cout << "O veiculo " << i + 1 << " excedeu o limite da janela de tempo para realizar uma acao no ponto " << num_prox << endl;
-					cout << "Janela de tempo final esperada: " << nohs->ltw[num_prox] << endl;
-					cout << "Tempo de chegada: " << tempo_total << endl;
-					cout << endl;
+					if(num_prox == 0){
+						
+						cout << "O veiculo " << i + 1 << " excedeu o limite da janela de tempo para chegar ao deposito!" << endl;
+						cout << "Janela de tempo final esperada: " << nohs->ltw[num_prox] << "." << endl;
+						cout << "Tempo de chegada: " << tempo_total << "." << endl;
+						cout << endl;
+					}
+					
+					else if(num_prox <= (linhas->SIZE - 1) / 2){
+						
+						cout << "O veiculo " << i + 1 << " excedeu o limite da janela de tempo para coletar no ponto " << num_prox << "!" << endl;
+						cout << "Janela de tempo final esperada: " << nohs->ltw[num_prox] << "." << endl;
+						cout << "Tempo de chegada: " << tempo_total << "." << endl;
+						cout << endl;
+					}
+					
+					else if(num_prox <= (linhas->SIZE - 1)){
+						
+						cout << "O veiculo " << i + 1 << " excedeu o limite da janela de tempo para entregar no ponto " << num_prox << "!" << endl;
+						cout << "Janela de tempo final esperada: " << nohs->ltw[num_prox] << "." << endl;
+						cout << "Tempo de chegada: " << tempo_total << "." << endl;
+						cout << endl;
+					}
 				}
 			}
 			
@@ -511,29 +541,91 @@ void vehicles::restricao_3(ifstream& arq_solucao, nodes *nohs){
 	cout << endl;
 }
 
-/* RESTRICAO 4: Sendo um pedido r = (i, j), i e j devem ser visitados exatamente uma vez
- * IMPORTANTE: DA MANEIRA COMO A SOLUCAO ALEATORIA EH GERADA, ESSA RESTRICAO SEMPRE EH ACEITA QUANDO O NUMERO DE VEICULOS EH 1
- * E SEMPRE REJEITADA QUANDO O NUMERO DE VEICULOS EH > 1
- * NA ETAPA ATUAL DO PROJETO, EH NECESSARIO UM GERADOR MAIS EFICIENTE, LOGO, AINDA NAO FOI IMPLEMENTADO TAL RESTRICAO !!!
- */
+// RESTRICAO 4: Sendo um pedido r = (i, j), i e j devem ser visitados exatamente uma vez
 void vehicles::restricao_4(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 	
+	cout << "Restricao 4: " << endl << endl;
 	
+	int num_atual;
+	
+	for(int i = 0; i < qtd_veiculos; i++){
+		
+		int pos = 0;
+		
+		for(auto it = rota[i].begin(); it != rota[i].end(); it++, pos++){
+			
+			num_atual = *it;
+			
+			if(num_atual == 0)
+				continue;
+			
+			// caso o ponto i ou j seja encontrado outra vez, o while eh quebrado
+			int k = 0;
+			while(k < pos){
+				
+				if(rota[i][k] == num_atual)
+					break;
+					
+				k++;
+			}
+			
+			// caso k percorra ate pos, quer dizer que o ponto i ou j nao foi encontrado novamente
+			if(k != pos){
+				
+				cout << "A rota do veiculo " << i + 1 << " possui o ponto " << num_atual << " visitado novamente!" << endl;
+				cout << endl;
+			}
+		}
+	}
+	
+	cout << "##################################" << endl;
+	cout << endl;
 }
 
-/* RESTRICAO 5: Sendo um pedido r = (i, j), o mesmo veículo que passa por i passa por j
- * IMPORTANTE: MESMA IDEIA QUE A RESTRICAO 4, NO MOMENTO ATUAL DO PROJETO, NAO EH PLAUSIVEL IMPLEMENTAR TAL RESTRICAO !!!
- */
+// RESTRICAO 5: Sendo um pedido r = (i, j), o mesmo veículo que passa por i passa por j
 void vehicles::restricao_5(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 	
+	cout << "Restricao 5: " << endl << endl;
 	
+	for(int x = 0; x < qtd_veiculos; x++){
+		
+		if(x + 1 == qtd_veiculos)
+			continue;
+			
+		for(int i = x + 1; i < qtd_veiculos; i++){
+			
+			int tam_rota_atual = rota[x].size();
+			int tam_rota_prox = rota[i].size();
+			
+			for(int j = 0; j < tam_rota_atual; j++){
+				
+				if(rota[x][j] == 0)
+					continue;
+					
+				for(int k = 0; k < tam_rota_prox; k++){
+					
+					if(rota[i][k] == 0)
+						continue;
+						
+					if(rota[x][j] == rota[i][k]){
+						
+						cout << "O veiculo " << i + 1 << " possui um ponto em comum com o veiculo " << i + 2 << "!" << endl;
+						cout << "Ponto em comum: " << rota[x][j] << "." << endl;
+						cout << endl;
+					}
+				}
+			}
+		}
+	}
+	
+	cout << "##################################" << endl;
+	cout << endl;
 }
 
-/* RESTRICAO 6: O somatorio das demandas dos pontos atendidos por certo veículo não pode ultrapassar sua capacidade 
- * IMPORTANTE: PARA A IMPLEMENTACAO DESSA RESTRICAO FOI CONSIDERADO QUE AS RESTRICOES 1, 4 E 5 SAO ACEITAS !!!
- * PARA O GERADOR ATUAL, NAO EH POSSIVEL DETERMINAR A RESTRICAO 6 PRECISAMENTE
- */
+// RESTRICAO 6: O somatorio das demandas dos pontos atendidos por certo veículo não pode ultrapassar sua capacida
 void vehicles::restricao_6(ifstream& arq_solucao, lines *linhas, nodes *nohs){
+	
+	cout << "Restricao 6: " << endl << endl;
 	
 	for(int i = 0; i < qtd_veiculos; i++){
 		
@@ -549,8 +641,8 @@ void vehicles::restricao_6(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 			if(dem_total > linhas->CAPACITY){
 				
 				cout << "O veiculo " << i + 1 << " excedeu sua capacidade no ponto " << num_atual << " de sua rota!" << endl;
-				cout << "Capacidade esperada: " << linhas->CAPACITY << endl;
-				cout << "Capacidade soliticada ao veiculo: " << dem_total << endl;
+				cout << "Capacidade esperada: " << linhas->CAPACITY << "." << endl;
+				cout << "Capacidade soliticada ao veiculo: " << dem_total << "." << endl;
 				cout << endl;
 			}
 		}
