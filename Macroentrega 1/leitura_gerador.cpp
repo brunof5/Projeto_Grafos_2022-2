@@ -76,14 +76,14 @@ int main(){
 				if(arq_solucao){
 					
 					vehicles *veiculos = new vehicles(arq_solucao);
-					veiculos->leitura_rota(arq_solucao, linhas);
+					veiculos->leitura_rota(arq_solucao);
 					
 					// verifica as 6 restricoes do problema
 					veiculos->restricao_1(arq_solucao, linhas, nohs);
 					veiculos->restricao_2(arq_solucao, linhas, nohs);
-					veiculos->restricao_3(arq_solucao, nohs);
-					//veiculos->restricao_4(arq_solucao, linhas, nohs);
-					//veiculos->restricao_5(arq_solucao, linhas, nohs);
+					veiculos->restricao_3(arq_solucao, linhas, nohs);
+					veiculos->restricao_4(arq_solucao, linhas, nohs);
+					veiculos->restricao_5(arq_solucao, linhas, nohs);
 					veiculos->restricao_6(arq_solucao, linhas, nohs);
 					
 					delete veiculos;
