@@ -88,15 +88,13 @@ Sendo VEICULOS uma string e quantidade_veiculos um inteiro para representar quan
 
 linha 2: ROTAS
 
-Sendo ROTAS uma string. Abaixo dela, em cada linha separada, terão as "quantidade_veiculos" rotas. Atualmente o padrão para a geração das rotas é ineficaz e necessita aprimoramento para ser útil nas próximas etapas de macro entregas, porém até o momento tem como objetivo dar uma ideia de como resolver o problema.
+Sendo ROTAS uma string. Abaixo dela, em cada linha separada, terão as "quantidade_veiculos" rotas.
 
 `O padrão das rotas é dado por: `
 
-0 ... [id do vértice] [id do vértice] [id do vértice] [id do vértice] ... 0
+tamanho_da_rota 0 ... [id do vértice] [id do vértice] [id do vértice] [id do vértice] ... 0
 
 Ou seja, um veículo começa na posição 0 e termina na posição 0, sendo 0 o depósito único. Os números entre tais 0's formam a rota do veiculo. Idealmente, cada rota deve obedecer as 6 restrições propostas pelo problema.
-
-Termina-se o arquivo contendo a palavra EOF.
 
 ## Proposição de um algoritmo
   
