@@ -450,12 +450,15 @@ void vehicles::restricao_2(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 				
 				num_atual = *it;
 				num_prox = *(it + 1);
-				tempo_total += nohs->dist[num_atual][num_prox] + nohs->dur[num_prox];
+				tempo_total += nohs->dist[num_atual][num_prox];
 			}
 			
 			if(tempo_total < nohs->etw[num_prox])
-				tempo_total = nohs->etw[num_prox];
-			
+				tempo_total = nohs->etw[num_prox] + nohs->dur[num_prox];
+				
+			else
+				tempo_total += nohs->dur[num_prox];
+				
 			if(num_prox == 0)
 				segundo_zero = true;
 		}
@@ -492,7 +495,7 @@ void vehicles::restricao_3(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 				
 				num_atual = *it;
 				num_prox = *(it + 1);
-				tempo_total += nohs->dist[num_atual][num_prox] + nohs->dur[num_prox];
+				tempo_total += nohs->dist[num_atual][num_prox];
 				
 				if(tempo_total < nohs->etw[num_prox]){
 					
@@ -501,8 +504,11 @@ void vehicles::restricao_3(ifstream& arq_solucao, lines *linhas, nodes *nohs){
 					cout << "Tempo de chegada: " << tempo_total << "." << endl;
 					cout << endl;
 					
-					tempo_total = nohs->etw[num_prox];
+					tempo_total = nohs->etw[num_prox] + nohs->dur[num_prox];
 				}
+				
+				else
+					tempo_total += nohs->dur[num_prox];
 				
 				if(tempo_total > nohs->ltw[num_prox]){
 					
