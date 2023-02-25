@@ -1,0 +1,179 @@
+bar-n100-1
+	melhor:	6 733
+	padrao: 9 1740
+	swap: 9 1624
+	swap e 2-opt depois: 9 1618 (melhor)
+
+bar-n100-2
+	melhor: 5 554
+	padrao: 7 2967
+	swap: 6 2669
+	swap e 2-opt depois: 6 2670 ("empatado" com swap)
+
+ber-n100-3
+	melhor: 3 713
+	padrao: 7 2536
+	swap: 7 2520
+	swap e 2-opt depois: 7 2270 (melhor)
+
+ber-n100-4
+	melhor: 3 494
+	padrao: 5 1871
+	swap: 5 1795 (melhor)
+	swap e 2-opt depois: 5 1847
+
+nyc-n100-4
+	melhor: 2 535
+	padrao: 4 1172
+	swap: 4 1112
+	swap e 2-opt depois: 3 981 (melhor)
+
+nyc-n100-5
+	melhor: 2 671
+	padrao: 4 1680
+	swap: 4 1685
+	swap e 2-opt depois: 3 1299 (melhor)
+
+poa-n100-1
+	melhor: 12 1589
+	padrao: 16 3263
+	swap: 16 3249
+	swap e 2-opt depois: 16 3249 (empatado com swap)
+
+poa-n100-2
+	melhor: 15 1539
+	padrao: 19 3942
+	swap: 19 3918
+	swap e 2-opt depois: 19 3918 (empatado com swap)
+
+poa-n100-6
+	melhor: 3 562
+	padrao: 6 2481
+	swap: 5 1767 (melhor)
+	swap e 2-opt depois: 5 1885
+
+poa-n100-7
+	melhor: 5 779
+	padrao: 7 3112 (melhor)
+	swap: 7 3147
+	swap e 2-opt depois: 7 3147
+
+bar-n200-1
+	melhor: 22 1829
+	padrao: 27 5648
+	swap: 26 5547 (melhor)
+	swap e 2-opt depois: 27 5643
+
+bar-n200-2
+	melhor: 23 2072
+	padrao: 28 6182
+	swap: 28 6038 (melhor)
+	swap e 2-opt depois: 29 6174
+
+bar-n200-3
+	melhor: 8 1644
+	padrao: 13 5711
+	swap: 14 5667 (melhor)
+	swap e 2-opt depois: 14 5862
+
+bar-n200-4
+	melhor: 13 838
+	padrao: 16 3453
+	swap: 15 3332
+	swap e 2-opt depois: 14 3159 (melhor)
+
+ber-n200-5
+	melhor: 27 3944
+	padrao: 35 7536 (melhor)
+	swap: 35 7585
+	swap e 2-opt depois: 36 7737
+
+ber-n200-6
+	melhor: 9 3016
+	padrao: 15 6544
+	swap: 16 6364
+	swap e 2-opt depois: 14 5968 (melhor)
+
+nyc-n200-3
+	melhor: 7 1019
+	padrao: 12 2080
+	swap: 11 1902 (melhor)
+	swap e 2-opt depois: 11 1959
+
+nyc-n200-4
+	melhor: 4 1037
+	padrao: 7 2439
+	swap: 7 2347
+	swap e 2-opt depois: 6 2371 (melhor)
+
+poa-n200-1
+	melhor: 25 2433
+	padrao: 32 6515
+	swap: 31 6418
+	swap e 2-opt depois: 31 6418 (empatado com swap)
+
+poa-n200-2
+	melhor: 13 2347
+	padrao: 19 8244
+	swap: 19 8084
+	swap e 2-opt depois: 18 7876 (melhor)
+
+bar-n400-1
+	melhor: 32 3085
+	padrao: 39 8813
+	swap: 39 8585 (melhor)
+	swap e 2-opt depois: 39 8744
+
+ber-n600-1
+	melhor: 47 7783
+	padrao: 68 15020
+	swap: 66 14436
+	swap e 2-opt depois: 66 14405 (melhor)
+
+nyc-n800-3
+	melhor: 26 3871
+	padrao: 45 8591
+	swap: 43 8314 (melhor em quantidade de veiculos)
+	swap e 2-opt depois: 44 8297 (melhor em custo)
+
+poa-n1000-1
+	melhor: 30 8082
+	padrao: 49 20729
+	swap: 43 18824 (melhor)
+	swap e 2-opt depois: 45 19340
+
+poa-n1500-6
+	melhor: 141 16678
+	padrao: 168 37389
+	swap: 167 36761 (melhor)
+	swap e 2-opt depois: 168 36756
+
+nyc-n2000-4
+	melhor: 29 7198
+	padrao: 52 19511
+	swap: 48 18267
+	swap e 2-opt depois: 48 17858 (melhor)
+
+ber-n2500-3
+	melhor: 248 18483
+	padrao: 282 62893
+	swap: 278 62007 (melhor)
+	swap e 2-opt depois: 280 61863
+
+bar-n3000-6
+	melhor: 79 21718
+	padrao: 130 53837
+	swap: 129 52176 (melhor)
+	swap e 2-opt depois: 130 52149
+
+poa-n4000-2
+	melhor: 513 59115
+	padrao: 619 133166
+	swap: 612 131448 (melhor)
+	swap e 2-opt depois: 614 131836
+
+poa-n5000-3
+	melhor: 286 60628
+	padrao: 367 161293
+	swap: 364 159036
+	swap e 2-opt depois: 360 157604 (melhor)
