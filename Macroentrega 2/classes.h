@@ -837,10 +837,10 @@ void Vehicles::gerar_arquivo_rota(int qtd_veiculos){
 	
 	arq_solucao.close();
 	
-	int tempo_total = 0;
+	/*int tempo_total = 0;
 	
 	for(int i = 0; i < qtd_veiculos; i++)
 		tempo_total += calcular_tempo(i);
 		
-	cout << qtd_veiculos << " " << tempo_total << " " << (soma_size - (qtd_veiculos * 2)) / 2 << endl;
+	cout << qtd_veiculos << " " << tempo_total << " " << (soma_size - (qtd_veiculos * 2)) / 2 << endl;*/
 }
