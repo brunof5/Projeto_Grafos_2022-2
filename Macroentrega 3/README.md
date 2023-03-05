@@ -26,5 +26,17 @@ A execução dos códigos deve ser feita de maneira sequencial, porém no caso d
 
 **É de responsabilidade do professor/usuário inserir na pasta "arquivos" do Google Colab as pastas dentro do arquivo "MACRO_3_solucoes", presente nesse diretório. Por alguma razão desconhecida, o notebook não aceita upload de pastas, fica a critério do usuário/professor como inserir os .csv na pasta "arquivos" do Google Colab, sendo criando pastas, ou apenas inserindo os arquivos .csv**
 
+`Exemplo do input, caso o usuário/professor crie as pastas "solucoes_mapas" e "solucoes_graficos" e insera os respectivos arquivos em cada pasta:`
+
+solucoes_mapas/mapas_bar-n100-1
+
+solucoes_graficos/graficos_bar-n100-1
+
+`Exemplo do input, caso o usuário/professor não crie tais pastas:`
+
+mapas_bar-n100-1
+
+graficos_bar-n100-1
+
 **Foi enviado ao e-mail do professor o compartilhamento do notebook do Google Colab, por favor verificar, caso não tenha aparecido em seu e-mail, favor clicar aqui :**
 https://colab.research.google.com/drive/1PhtCH9UihOWPDA6BStj_TFp35nd9gZ2W?usp=sharing
