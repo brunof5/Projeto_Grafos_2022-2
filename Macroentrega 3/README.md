@@ -26,5 +26,5 @@ A execução dos códigos deve ser feita de maneira sequencial, porém no caso d
 
 **É de responsabilidade do professor/usuário inserir na pasta "arquivos" do Google Colab as pastas dentro do arquivo "MACRO_3_solucoes", presente nesse diretório.**
 
-**Foi enviado ao e-mail do professor o compartilhamento do notebook do Google Colab, por favor verificar, caso não tenha aparecido em seu e-mai, favor clicar aqui :**
+**Foi enviado ao e-mail do professor o compartilhamento do notebook do Google Colab, por favor verificar, caso não tenha aparecido em seu e-mail, favor clicar aqui :**
 https://colab.research.google.com/drive/1PhtCH9UihOWPDA6BStj_TFp35nd9gZ2W?usp=sharing
